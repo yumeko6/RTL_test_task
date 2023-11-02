@@ -24,7 +24,7 @@ async def message_handler(message: Message) -> None:
     """
     request: dict = loads(message.text)
     answer = await aggregate_salaries(**request)
-    await message.answer(str(answer))
+    await message.answer(answer)
 
 
 async def start_bot() -> None:
