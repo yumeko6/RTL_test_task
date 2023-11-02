@@ -1,3 +1,4 @@
+import json
 from os import getenv
 from datetime import datetime
 
@@ -19,7 +20,7 @@ GROUP_FORMAT_TYPES: dict = {
 
 async def aggregate_salaries(
         dt_from: str, dt_upto: str, group_type: str
-) -> dict:
+) -> str:
     """
     Функция для аггрегирования данных в MongoBD на основе вводных данных.
     :param dt_from: Дата начала аггрегации.
@@ -54,7 +55,7 @@ async def aggregate_salaries(
     cursor = collection.aggregate(pipeline)
     results = await cursor.to_list(length=None)
 
-    dataset = [result["total"] for result in results]
-    labels = [result["_id"] for result in results]
+    dataset = [result['total'] for result in results]
+    labels = [result['_id'] for result in results]
 
-    return {"dataset": dataset, "labels": labels}
+    return json.dumps({"dataset": dataset, "labels": labels})
